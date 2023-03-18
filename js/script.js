@@ -6,13 +6,27 @@ const Player = (name, markerChoice) => {
 const ticTacToeGame = (() => {
   //Creates a gameboard
   const createGameboard = () => {
-    let board;
+    let board = [[], [], []];
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         board[i][j] = 0;
       }
     }
     return board;
+  };
+
+  const renderGameboard = () => {
+    let boardInDom = [[], [], []];
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        boardInDom[i][j] = document.createElement("div");
+        boardInDom[i][j].innerText = `${i}, ${j}`;
+        boardInDom[i][j].classList.add("tic-tac-toe-square");
+
+        container.appendChild(boardInDom[i][j]);
+      }
+    }
+    return boardInDom;
   };
 
   // Place player's marker on the board
@@ -99,8 +113,11 @@ const ticTacToeGame = (() => {
 
   return {
     createGameboard,
+    renderGameboard,
     checkState,
   };
 })();
 
+let container = document.querySelector(".tic-tac-toe-container");
 let gameboard = ticTacToeGame.createGameboard();
+let gameboardInDom = ticTacToeGame.renderGameboard();
