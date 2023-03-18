@@ -7,48 +7,88 @@ const Player = (name, markerChoice) => {
 };
 
 const ticTacToeGame = (() => {
-  // Creates a gameboard array
   let placedO = true;
+  let numberOfTurns = 0;
 
-  const createGameboard = () => {
-    let board = [[], [], []];
+  // Resets everything and starts a new game
+  const newGame = () => {
+    placedO = true;
+    numberOfTurns = 0;
+
+    // Continously deleted the first Child of container until it has no children left
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+
+    let gameBoard = [[], [], []];
+    let boardInDom = [[], [], []];
+
+    gameBoard = createGameBoard(gameBoard);
+    boardInDom = renderGameboard(boardInDom);
+    createEventListeners(boardInDom);
+  };
+
+  // Creates a gameboard array
+  const createGameBoard = (board) => {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         board[i][j] = 0;
       }
     }
-    renderGameboard(board);
     return board;
   };
 
   // Puts gameboard onto DOM
-  const renderGameboard = () => {
-    let boardInDom = [[], [], []];
+  const renderGameboard = (board) => {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
-        boardInDom[i][j] = document.createElement("div");
-        boardInDom[i][j].classList.add("tic-tac-toe-square");
+        board[i][j] = document.createElement("div");
+        board[i][j].classList.add("tic-tac-toe-square");
 
-        container.appendChild(boardInDom[i][j]);
+        container.appendChild(board[i][j]);
       }
     }
-    createEventListeners(boardInDom);
+    return board;
   };
 
   // Makes event listeners to let players place markers
-  const createEventListeners = (domElements) => {
+  const createEventListeners = (board) => {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
-        domElements[i][j].addEventListener(
+        board[i][j].addEventListener(
           "click",
           () => {
             if (placedO) {
-              domElements[i][j].classList.toggle("add-X");
+              board[i][j].classList.toggle("add-X");
               placedO = false;
             } else {
-              domElements[i][j].classList.toggle("add-O");
+              board[i][j].classList.toggle("add-O");
               placedO = true;
             }
+            numberOfTurns++;
+          },
+          { once: true }
+        );
+      }
+    }
+    return board;
+  };
+
+  //
+  const removeEventListeners = (boardInDom) => {
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        boardInDom[i][j].removeEventListener(
+          "click",
+          () => {
+            if (placedO) {
+              board[i][j].classList.toggle("add-X");
+              placedO = false;
+            } else {
+              board[i][j].classList.toggle("add-O");
+              placedO = true;
+            }
+            numberOfTurns++;
           },
           { once: true }
         );
@@ -138,11 +178,12 @@ const ticTacToeGame = (() => {
   };
 
   return {
-    createGameboard,
-    checkState,
+    newGame,
   };
 })();
 
-playButton.addEventListener("click", () => {});
+playButton.addEventListener("click", () => {
+  newGameboard = ticTacToeGame.newGame();
+});
 
-ticTacToeGame.createGameboard();
+ticTacToeGame.newGame();
