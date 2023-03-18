@@ -1,8 +1,14 @@
 body {
   display: flex;
   flex-direction: column;
-  padding: 2rem;
-  gap: 4rem;
+  height: 100vh;
+
+  position: relative;
+}
+
+header {
+  margin-top: 2rem;
+  height: 5%;
 }
 
 h1 {
@@ -11,9 +17,29 @@ h1 {
   font-weight: bold;
 }
 
+.player-info {
+  height: 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 10rem;
+}
+
+.player-one-info {
+  font-size: 32px;
+}
+
+.player-two-info {
+  font-size: 32px;
+}
+
 .tic-tac-toe-container {
+  margin-top: 3rem;
+
   align-self: center;
-  width: 40%;
+
+  width: 45%;
   aspect-ratio: 1;
 
   display: grid;

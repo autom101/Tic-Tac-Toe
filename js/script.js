@@ -1,3 +1,6 @@
+let container = document.querySelector(".tic-tac-toe-container");
+let playButton = document.querySelector(".play-button");
+
 //Player object factory
 const Player = (name, markerChoice) => {
   return { name, markerChoice };
@@ -5,6 +8,7 @@ const Player = (name, markerChoice) => {
 
 const ticTacToeGame = (() => {
   // Creates a gameboard array
+  let placedO = true;
 
   const createGameboard = () => {
     let board = [[], [], []];
@@ -17,7 +21,7 @@ const ticTacToeGame = (() => {
     return board;
   };
 
-  //
+  // Puts gameboard onto DOM
   const renderGameboard = () => {
     let boardInDom = [[], [], []];
     for (let i = 0; i < 3; i++) {
@@ -29,18 +33,24 @@ const ticTacToeGame = (() => {
       }
     }
     createEventListeners(boardInDom);
-    return boardInDom;
   };
 
+  // Makes event listeners to let players place markers
   const createEventListeners = (domElements) => {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         domElements[i][j].addEventListener(
           "click",
           () => {
-            domElements[i][j].classList.toggle("add-X");
+            if (placedO) {
+              domElements[i][j].classList.toggle("add-X");
+              placedO = false;
+            } else {
+              domElements[i][j].classList.toggle("add-O");
+              placedO = true;
+            }
           },
-          false
+          { once: true }
         );
       }
     }
@@ -62,7 +72,6 @@ const ticTacToeGame = (() => {
   };
 
   // Checks if any win conditions have been met:
-
   const checkState = (board) => {
     let checkWinner = 0;
     //Check row0
@@ -134,5 +143,6 @@ const ticTacToeGame = (() => {
   };
 })();
 
-let container = document.querySelector(".tic-tac-toe-container");
-let gameboard = ticTacToeGame.createGameboard();
+playButton.addEventListener("click", () => {});
+
+ticTacToeGame.createGameboard();
