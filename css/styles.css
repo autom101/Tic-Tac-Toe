@@ -46,3 +46,11 @@ h1 {
 .tic-tac-toe-square:nth-child(8) {
   border-right: 2px solid black;
 }
+
+.add-X {
+  background-image: url(../images/alpha-x.svg);
+}
+
+.add-O {
+  background-image: url(../images/alpha-o.svg);
+}
