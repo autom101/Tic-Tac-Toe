@@ -1,3 +1,4 @@
+let body = document.querySelector("body");
 let container = document.querySelector(".tic-tac-toe-container");
 let playButton = document.querySelector(".play-button");
 
@@ -100,6 +101,11 @@ const ticTacToeGame = (() => {
     return board;
   };
 
+  //Show fireworks after there is a winner
+  const toggleFireworks = () => {
+    body.classList.toggle("fireworks");
+  };
+
   // Show new player score on DOM
   const displayPlayerScore = () => {
     //
@@ -163,6 +169,9 @@ const ticTacToeGame = (() => {
         boardInDom[i][2 - i].appendChild(line[i]);
       }
     }
+
+    toggleFireworks();
+    setTimeout(toggleFireworks, 4050);
   };
 
   // Checks if any win conditions have been met:
