@@ -22,6 +22,7 @@ const ticTacToeGame = (() => {
   let winner = false;
   let tie = false;
   let gameBoard = [[], [], []];
+  let boardInDom = [[], [], []];
   let player1 = Player();
   let player2 = Player();
 
@@ -32,7 +33,7 @@ const ticTacToeGame = (() => {
     winner = false;
     tie = false;
     gameBoard = [[], [], []];
-    let boardInDom = [[], [], []];
+    boardInDom = [[], [], []];
 
     // Continously delete the first Child of container until it has no children left
     while (container.firstChild) {
@@ -127,92 +128,177 @@ const ticTacToeGame = (() => {
     displayPlayerScore();
   };
 
+  //Strikes line through elements after win
+  const showLines = (winningLineOrientation, locationOfLine) => {
+    let line = [];
+
+    if (winningLineOrientation === "row") {
+      for (let i = 0; i < 3; i++) {
+        line[i] = document.createElement("div");
+        line[i].classList.add("horizontal-line");
+        boardInDom[locationOfLine][i].appendChild(line[i]);
+      }
+    }
+
+    if (winningLineOrientation === "column") {
+      for (let i = 0; i < 3; i++) {
+        line[i] = document.createElement("div");
+        line[i].classList.add("vertical-line");
+        boardInDom[i][locationOfLine].appendChild(line[i]);
+      }
+    }
+
+    if (winningLineOrientation === "forwardDiagonal") {
+      for (let i = 0; i < 3; i++) {
+        line[i] = document.createElement("div");
+        line[i].classList.add("forward-diagonal-line");
+        boardInDom[i][i].appendChild(line[i]);
+      }
+    }
+
+    if (winningLineOrientation === "backwardDiagonal") {
+      for (let i = 0; i < 3; i++) {
+        line[i] = document.createElement("div");
+        line[i].classList.add("backward-diagonal-line");
+        boardInDom[i][2 - i].appendChild(line[i]);
+      }
+    }
+  };
+
   // Checks if any win conditions have been met:
   const checkState = (board) => {
-    //Check row0
-    if (numberOfTurns >= 4 && winner === false) {
+    //Check row1
+    if (numberOfTurns >= 4 && winner === false && tie === false) {
       if (board[0][0] + board[0][1] + board[0][2] === 3) {
-        updatePlayerScore("playerOne");
+        updatePlayerScore("playerOne", 0);
+        showLines("row", 0);
+        winner = true;
         return;
       }
       if (board[0][0] + board[0][1] + board[0][2] === -3) {
-        updatePlayerScore("playerTwo");
-        return;
-      }
+        updatePlayerScore("playerTwo", 0);
+        showLines("row", 0);
 
-      //Check row1
-      if (board[1][0] + board[1][1] + board[1][2] === 3) {
-        updatePlayerScore("playerOne");
-        return;
-      }
-      if (board[1][0] + board[1][1] + board[1][2] === -3) {
-        updatePlayerScore("playerTwo");
+        winner = true;
         return;
       }
 
       //Check row2
-      if (board[2][0] + board[2][1] + board[2][2] === 3) {
-        updatePlayerScore("playerOne");
+      if (board[1][0] + board[1][1] + board[1][2] === 3) {
+        updatePlayerScore("playerOne", 1);
+        showLines("row", 1);
+
+        winner = true;
         return;
       }
-      if (board[2][0] + board[2][1] + board[2][2] === -3) {
-        updatePlayerScore("playerTwo");
+      if (board[1][0] + board[1][1] + board[1][2] === -3) {
+        updatePlayerScore("playerTwo", 1);
+        showLines("row", 1);
+
+        winner = true;
         return;
       }
 
-      //Check col0
-      if (board[0][0] + board[1][0] + board[2][0] === 3) {
-        updatePlayerScore("playerOne");
+      //Check row3
+      if (board[2][0] + board[2][1] + board[2][2] === 3) {
+        updatePlayerScore("playerOne", 2);
+        showLines("row", 2);
+
+        winner = true;
         return;
       }
-      if (board[0][0] + board[1][0] + board[2][0] === -3) {
-        updatePlayerScore("playerTwo");
+      if (board[2][0] + board[2][1] + board[2][2] === -3) {
+        updatePlayerScore("playerTwo", 2);
+        showLines("row", 2);
+
+        winner = true;
         return;
       }
 
       //Check col1
-      if (board[0][1] + board[1][1] + board[2][1] === 3) {
-        updatePlayerScore("playerOne");
+      if (board[0][0] + board[1][0] + board[2][0] === 3) {
+        updatePlayerScore("playerOne", 0);
+        showLines("column", 0);
+
+        winner = true;
         return;
       }
-      if (board[0][1] + board[1][1] + board[2][1] === -3) {
-        updatePlayerScore("playerTwo");
+      if (board[0][0] + board[1][0] + board[2][0] === -3) {
+        updatePlayerScore("playerTwo", 0);
+        showLines("column", 0);
+
+        winner = true;
         return;
       }
 
       //Check col2
+      if (board[0][1] + board[1][1] + board[2][1] === 3) {
+        updatePlayerScore("playerOne", 1);
+        showLines("column", 1);
+
+        winner = true;
+        return;
+      }
+      if (board[0][1] + board[1][1] + board[2][1] === -3) {
+        updatePlayerScore("playerTwo", 1);
+        showLines("column", 1);
+
+        winner = true;
+        return;
+      }
+
+      //Check col3
       if (board[0][2] + board[1][2] + board[2][2] === 3) {
-        updatePlayerScore("playerOne");
+        updatePlayerScore("playerOne", 2);
+        showLines("column", 2);
+
+        winner = true;
         return;
       }
       if (board[0][2] + board[1][2] + board[2][2] === -3) {
-        updatePlayerScore("playerTwo");
+        updatePlayerScore("playerTwo", 2);
+        showLines("column", 2);
+
+        winner = true;
         return;
       }
 
       //Check forwards-diagonal
       if (board[0][0] + board[1][1] + board[2][2] === 3) {
         updatePlayerScore("playerOne");
+        showLines("forwardDiagonal", 0);
+
+        winner = true;
         return;
       }
       if (board[0][0] + board[1][1] + board[2][2] === -3) {
         updatePlayerScore("playerTwo");
+        showLines("forwardDiagonal", 0);
+
+        winner = true;
         return;
       }
 
       //Check backwards-diagonal
       if (board[0][2] + board[1][1] + board[2][0] === 3) {
         updatePlayerScore("playerOne");
+        showLines("backwardDiagonal", 0);
+
+        winner = true;
         return;
       }
       if (board[0][2] + board[1][1] + board[2][0] === -3) {
         updatePlayerScore("playerTwo");
+        showLines("backwardDiagonal", 0);
+
+        winner = true;
         return;
       }
     }
 
-    if (numberOfTurns === 9 && winner === false) {
+    if (numberOfTurns === 9 && winner === false && tie === false) {
       updatePlayerScore("tie");
+      tie = true;
       return;
     }
   };

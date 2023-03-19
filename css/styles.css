@@ -71,18 +71,14 @@ h1 {
 }
 
 .tic-tac-toe-square {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-size: 3rem;
+  position: relative;
+  box-sizing: border-box;
 }
 
 .tic-tac-toe-square:nth-child(1),
 .tic-tac-toe-square:nth-child(2),
 .tic-tac-toe-square:nth-child(4),
 .tic-tac-toe-square:nth-child(5) {
-  padding: 1rem;
   border-bottom: 2px solid black;
   border-right: 2px solid black;
 }
@@ -103,4 +99,42 @@ h1 {
 
 .add-O {
   background-image: url(../images/alpha-o.svg);
+}
+
+.horizontal-line {
+  height: 5px;
+  width: 100%;
+  position: absolute;
+  bottom: 45%;
+  border-bottom: 20px solid yellow;
+}
+
+.vertical-line {
+  height: 100%;
+  width: 5px;
+  position: absolute;
+  left: 45%;
+  border-left: 20px solid yellow;
+}
+
+.forward-diagonal-line {
+  position: absolute;
+  top: 65%;
+  height: 10%;
+  width: 145%;
+  transform: rotate(45deg);
+  background-color: yellow;
+}
+
+.backward-diagonal-line {
+  position: absolute;
+  top: 20%;
+  height: 10%;
+  width: 145%;
+  transform: rotate(135deg);
+  background-color: yellow;
+}
+
+.fireworks {
+  /* Display fireworks here */
 }
